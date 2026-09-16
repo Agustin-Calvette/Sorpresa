@@ -1,0 +1,40 @@
+img{
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Contenedor de cada regalo: limita el ancho */
+.carta-diseño{
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Los regalos -izquierda se alinean a la izquierda */
+.carta-diseño:has(.carta-regalo-izquierda){
+    margin-right: auto;
+    margin-left: 0;
+}
+
+/* Los regalos -derecha se alinean a la derecha */
+.carta-diseño:has(.carta-regalo-derecha){
+    margin-left: auto;
+    margin-right: 0;
+}
+
+/* Imagenes de los regalos dentro de la carta */
+.carta-diseño img{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* En pantallas pequenas (movil) se ajusta solo */
+@media (max-width: 600px){
+    .carta-diseño{
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}

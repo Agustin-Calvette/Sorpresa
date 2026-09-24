@@ -59,50 +59,158 @@ header{
 }
 
 .nav{
-    background: linear-gradient(135deg, #ff4fa3, #b3248f);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff4fa3, #b3248f 55%, #8e1a6d);
     color: var(--blanco);
-    padding: 16px 18px;
-    box-shadow: 0 6px 20px rgba(216, 27, 116, 0.35);
-    border-bottom-left-radius: 22px;
-    border-bottom-right-radius: 22px;
+    padding: 20px 18px 18px;
+    box-shadow: 0 8px 26px rgba(216, 27, 116, 0.4);
+    border-bottom-left-radius: 26px;
+    border-bottom-right-radius: 26px;
     text-align: center;
+    isolation: isolate;
 }
 
+/* Destello suave de luz en las esquinas (sin manchas cuadradas: por eso
+   se usa un solo radial grande y con degradado largo). */
+.nav::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 60% 120% at 0% 50%, rgba(255, 255, 255, 0.16), transparent 70%),
+        radial-gradient(ellipse 60% 120% at 100% 50%, rgba(255, 255, 255, 0.12), transparent 70%);
+}
+
+/* Título del nav, con un corazón a cada lado.
+   Se usa flex SIN permiso de salto de línea (nowrap), así los corazones
+   siempre quedan a los lados del texto y nunca encima ni debajo. */
 .nav h2{
-    font-size: 1.35rem;
-    letter-spacing: 0.5px;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-    animation: latido 3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    font-size: 1.45rem;
+    letter-spacing: 0.6px;
+    margin: 0 0 16px;
+    line-height: 1.2;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    color: var(--blanco);
+    white-space: nowrap;
 }
 
+/* Los dos corazones que acompañan al título. No se encogen nunca
+   (flex: 0 0 auto), así el texto es el que cede espacio si hace falta.
+   brightness(0) invert(1) convierte la imagen en una SILUETA BLANCA:
+   así el corazón resalta sobre el rosa en vez de camuflarse. */
+.nav h2::before,
+.nav h2::after{
+    content: "";
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    background-image: url("../img/elementos/corazoncito4.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: brightness(0) invert(1)
+            drop-shadow(0 2px 5px rgba(0, 0, 0, 0.35));
+    animation: latido 2.6s ease-in-out infinite;
+}
+
+/* El de la derecha late un poco desfasado, para que se vea vivo */
+.nav h2::after{
+    animation-delay: 0.55s;
+}
+
+/* ---------- Botones de navegación ---------- */
 .nav nav ul{
     list-style: none;
     display: flex;
     justify-content: center;
-    gap: 12px;
+    align-items: center;
+    gap: 14px;
     flex-wrap: wrap;
 }
 
+/* Cada botón lleva un corazoncito blanco a la izquierda */
 .nav nav ul li a{
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-width: 128px;
     text-decoration: none;
     color: var(--blanco);
     font-weight: bold;
-    font-size: 0.95rem;
-    padding: 9px 20px;
+    font-size: 0.97rem;
+    letter-spacing: 0.4px;
+    padding: 11px 24px;
     border-radius: 50px;
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.16);
     border: 1.5px solid rgba(255, 255, 255, 0.55);
-    transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: transform 0.25s ease, background 0.25s ease,
+                box-shadow 0.25s ease, color 0.25s ease;
+}
+
+.nav nav ul li a::before{
+    content: "";
+    flex: 0 0 auto;
+    width: 17px;
+    height: 17px;
+    background-image: url("../img/elementos/corazoncito4.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: brightness(0) invert(1);
+    transition: transform 0.25s ease, filter 0.25s ease;
 }
 
 .nav nav ul li a:hover,
-.nav nav ul li a:active{
+.nav nav ul li a:active,
+.nav nav ul li a:focus-visible{
     background: var(--blanco);
     color: var(--rosa-intenso);
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+}
+
+/* Al pasar el ratón, el corazón del botón se vuelve rosa de nuevo */
+.nav nav ul li a:hover::before,
+.nav nav ul li a:active::before,
+.nav nav ul li a:focus-visible::before{
+    filter: none;
+    transform: scale(1.2) rotate(-8deg);
+}
+
+/* ---------- Separador: tres corazones bajo los botones ----------
+   Tres corazones sueltos con aire entre ellos (antes era una fila
+   repetida que se veía como una mancha). */
+.nav-separador{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.nav-separador img{
+    width: 13px;
+    height: 13px;
+    object-fit: contain;
+    opacity: 0.85;
+    filter: brightness(0) invert(1);
+}
+
+/* El del centro un poco más grande y más marcado */
+.nav-separador img:nth-child(2){
+    width: 16px;
+    height: 16px;
+    opacity: 1;
 }
 
 /* ---------- Contenido principal ---------- */
@@ -338,6 +446,279 @@ iframe{
     box-shadow: 0 10px 22px rgba(216, 27, 116, 0.35);
 }
 
+/* ===========================================================
+   LIGHTBOX - ver un regalo en pantalla completa 💗
+   =========================================================== */
+
+/* Las imágenes de los regalos invitan a tocarse */
+.carta-diseño img.imagen-ampliable{
+    cursor: zoom-in;
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.carta-diseño img.imagen-ampliable:hover,
+.carta-diseño img.imagen-ampliable:focus-visible{
+    transform: scale(1.03);
+    filter: brightness(1.04);
+    outline: 3px solid var(--rosa-fuerte);
+    outline-offset: 2px;
+}
+
+/* La ventana oscura que cubre toda la pantalla */
+.lightbox{
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;                 /* se muestra al añadir .lightbox-abierto */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 24px 16px 70px;
+    background: rgba(60, 10, 35, 0.92);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    animation: aparecer 0.25s ease;
+}
+
+.lightbox-abierto{
+    display: flex;
+}
+
+/* Con el lightbox abierto, no se puede desplazar la página de detrás */
+body.con-lightbox{
+    overflow: hidden;
+}
+
+/* La imagen se adapta a la pantalla sin recortarse ni deformarse */
+.lightbox-imagen{
+    max-width: 100%;
+    max-height: calc(100vh - 160px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 18px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+    background: var(--blanco);
+}
+
+/* ---------- Animaciones al cambiar de foto ----------
+   Al pulsar las flechas, la imagen nueva entra deslizándose desde
+   el lado hacia el que vas: derecha si avanzas, izquierda si vuelves.
+   La animación dura lo mismo que el fundido, para que se vea fluido. */
+.lightbox-entra-der{
+    animation: entra-derecha 0.42s cubic-bezier(0.22, 0.9, 0.3, 1);
+}
+
+.lightbox-entra-izq{
+    animation: entra-izquierda 0.42s cubic-bezier(0.22, 0.9, 0.3, 1);
+}
+
+@keyframes entra-derecha{
+    from{
+        opacity: 0;
+        transform: translateX(60px) scale(0.97);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes entra-izquierda{
+    from{
+        opacity: 0;
+        transform: translateX(-60px) scale(0.97);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* El títulito del regalo (ej. "6 Meses") */
+.lightbox-titulo{
+    margin-top: 14px;
+    color: var(--blanco);
+    font-weight: bold;
+    font-size: 1.05rem;
+    text-align: center;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.lightbox-titulo:empty{
+    display: none;
+}
+
+/* Botón de cerrar (arriba a la derecha) */
+.lightbox-cerrar{
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 46px;
+    height: 46px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    color: var(--blanco);
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.lightbox-cerrar:hover,
+.lightbox-cerrar:focus-visible{
+    background: var(--rosa-fuerte);
+    transform: scale(1.08);
+}
+
+/* Flechas para pasar de un regalo a otro */
+.lightbox-flecha{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--blanco);
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.lightbox-flecha:hover,
+.lightbox-flecha:focus-visible{
+    background: var(--rosa-fuerte);
+}
+
+.lightbox-anterior{
+    left: 12px;
+}
+
+.lightbox-siguiente{
+    right: 12px;
+}
+
+.lightbox-anterior:hover,
+.lightbox-anterior:focus-visible{
+    transform: translateY(-50%) scale(1.08);
+}
+
+.lightbox-siguiente:hover,
+.lightbox-siguiente:focus-visible{
+    transform: translateY(-50%) scale(1.08);
+}
+
+@keyframes aparecer{
+    from{ opacity: 0; }
+    to{ opacity: 1; }
+}
+
+/* ===========================================================
+   BOTÓN DE MÚSICA DE FONDO 💗
+   Flota abajo a la derecha. Si la canción está sonando, muestra
+   unas barritas que se mueven; si está en pausa, solo el corazón.
+   =========================================================== */
+.boton-musica{
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 900;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 54px;
+    height: 54px;
+    padding: 0;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--blanco);
+    background: linear-gradient(135deg, #ff4fa3, #b3248f);
+    box-shadow: 0 10px 24px rgba(216, 27, 116, 0.45);
+    overflow: visible;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+}
+
+.boton-musica:hover,
+.boton-musica:focus-visible{
+    transform: translateY(-3px) scale(1.08);
+    box-shadow: 0 14px 30px rgba(216, 27, 116, 0.6);
+    outline: none;
+}
+
+/* El corazón dentro del botón */
+.musica-corazon{
+    font-size: 1.5rem;
+    line-height: 1;
+    /* El corazón es el carácter ❤, sin imagen: así siempre carga */
+    color: var(--blanco);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Las tres barritas que simulan la música sonando */
+.musica-barras{
+    display: none;
+    align-items: flex-end;
+    gap: 2px;
+    height: 18px;
+}
+
+.musica-barras i{
+    display: block;
+    width: 3px;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--blanco);
+}
+
+/* Cuando suena, se ven las barritas y late el corazón */
+.boton-musica.musica-activa .musica-corazon{
+    animation: latido 1.4s ease-in-out infinite;
+}
+
+.boton-musica.musica-activa .musica-barras{
+    display: flex;
+}
+
+.boton-musica.musica-activa .musica-barras i:nth-child(1){
+    animation: barra-musica 0.9s ease-in-out infinite;
+}
+
+.boton-musica.musica-activa .musica-barras i:nth-child(2){
+    animation: barra-musica 0.7s ease-in-out infinite 0.15s;
+}
+
+.boton-musica.musica-activa .musica-barras i:nth-child(3){
+    animation: barra-musica 1.1s ease-in-out infinite 0.3s;
+}
+
+/* Cuando el navegador bloqueó la música, el botón llama la atención.
+   Se anima solo el halo (::after), no el botón en sí: mover el propio
+   botón dificulta los clics y molesta al usuario. */
+.boton-musica.musica-atencion::after{
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    animation: halo-atencion 1.8s ease-out infinite;
+}
+
+@keyframes barra-musica{
+    0%, 100%{ height: 6px; }
+    50%{ height: 18px; }
+}
+
+@keyframes halo-atencion{
+    0%{ transform: scale(1); opacity: 0.9; }
+    100%{ transform: scale(1.45); opacity: 0; }
+}
+
 /* ---------- Animaciones ---------- */
 @keyframes latido{
     0%, 100%{ transform: scale(1); }
@@ -356,6 +737,39 @@ iframe{
     }
 }
 
+/* En el celular el lightbox se adapta: menos margen y flechas discretas */
+@media (max-width: 600px){
+    .lightbox{
+        padding: 56px 8px 76px;
+    }
+
+    .lightbox-imagen{
+        max-height: calc(100vh - 190px);
+        border-radius: 14px;
+    }
+
+    .lightbox-flecha{
+        width: 44px;
+        height: 44px;
+        font-size: 1.7rem;
+        background: rgba(255, 255, 255, 0.28);
+    }
+
+    .lightbox-anterior{
+        left: 6px;
+    }
+
+    .lightbox-siguiente{
+        right: 6px;
+    }
+
+    .lightbox-cerrar{
+        width: 42px;
+        height: 42px;
+        font-size: 1.6rem;
+    }
+}
+
 /* ===========================================================
    Ajustes específicos para el CELULAR 💗
    =========================================================== */
@@ -369,8 +783,60 @@ iframe{
         padding: 18px 12px 50px;
     }
 
+    /* El título del nav: la fuente baja lo justo para que quepa entero
+       con sus dos corazones incluso en el celular más estrecho */
     .nav h2{
-        font-size: 1.2rem;
+        font-size: 1.05rem;
+        gap: 7px;
+        margin-bottom: 13px;
+        letter-spacing: 0.3px;
+    }
+
+    .nav h2::before,
+    .nav h2::after{
+        width: 21px;
+        height: 21px;
+    }
+
+    .nav{
+        padding: 16px 12px 13px;
+    }
+
+    .nav nav ul{
+        gap: 10px;
+    }
+
+    /* En el celular los botones se reparten el ancho disponible */
+    .nav nav ul li{
+        flex: 1 1 auto;
+    }
+
+    .nav nav ul li a{
+        width: 100%;
+        min-width: 0;
+        padding: 10px 14px;
+        font-size: 0.92rem;
+    }
+
+    /* El separador de corazones, más discreto */
+    .nav-separador{
+        margin-top: 11px;
+        gap: 8px;
+    }
+
+    .nav-separador img{
+        width: 11px;
+        height: 11px;
+    }
+
+    .nav-separador img:nth-child(2){
+        width: 13px;
+        height: 13px;
+    }
+
+    .nav nav ul li a::before{
+        width: 15px;
+        height: 15px;
     }
 
     h2{
@@ -412,5 +878,42 @@ iframe{
     .nav{
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
+        padding: 20px 18px 16px;
+    }
+
+    .nav h2{
+        font-size: 1.75rem;
+        gap: 16px;
+        letter-spacing: 1px;
+    }
+
+    .nav h2::before,
+    .nav h2::after{
+        width: 36px;
+        height: 36px;
+    }
+
+    .nav nav ul{
+        gap: 16px;
+    }
+
+    .nav nav ul li a{
+        font-size: 1.02rem;
+        padding: 11px 26px;
+    }
+
+    .nav-separador{
+        margin-top: 16px;
+        gap: 12px;
+    }
+
+    .nav-separador img{
+        width: 15px;
+        height: 15px;
+    }
+
+    .nav-separador img:nth-child(2){
+        width: 19px;
+        height: 19px;
     }
 }

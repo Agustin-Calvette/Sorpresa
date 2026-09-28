@@ -102,16 +102,36 @@ header{
     white-space: nowrap;
 }
 
-/* Los dos corazones que acompañan al título. No se encogen nunca
-   (flex: 0 0 auto), así el texto es el que cede espacio si hace falta.
-   brightness(0) invert(1) convierte la imagen en una SILUETA BLANCA:
-   así el corazón resalta sobre el rosa en vez de camuflarse. */
 .nav h2::before,
-.nav h2::after{
+.nav h2::after,
+.nav h2::before::before,
+.nav h2::after::after{
+    background-color: transparent;
+}
+
+/* Los dos corazones que acompañan al título.
+
+   OJO: aquí hay un h2::after GENÉRICO (la rayita rosa bajo los títulos de
+   las secciones) que también pone content + position: absolute. Para
+   ganarle sin depender del orden del archivo, estos selectores llevan
+   :not() y van más abajo, así siempre anulan a los genéricos.
+
+   El corazón se dibuja con background-image + filter DENTRO de la caja
+   del pseudo-elemento (width/height + background-size: contain). */
+.nav h2:not(:has(*))::before,
+.nav h2:not(:has(*))::after{
     content: "";
+    position: static;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    top: auto;
+    transform: none;
+    align-self: center;
     flex: 0 0 auto;
     width: 30px;
     height: 30px;
+    border-radius: 0;
     background-image: url("../img/elementos/corazoncito4.png");
     background-size: contain;
     background-repeat: no-repeat;
@@ -310,6 +330,73 @@ iframe{
     text-align: left;
 }
 
+/* Título con un corazón a cada lado: van dentro de una pastilla de cristal
+   y alineados con el texto, nunca sueltos ni encimados. */
+.titulo-con-corazones{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: nowrap;
+    width: fit-content;
+    max-width: 100%;
+    margin: 6px auto 22px;
+    padding: 10px 18px;
+    border-radius: 50px;
+    background: linear-gradient(135deg, rgba(255, 79, 163, 0.16), rgba(179, 36, 143, 0.14));
+    border: 1px solid rgba(255, 79, 163, 0.28);
+    box-shadow: 0 6px 18px rgba(216, 27, 116, 0.14);
+}
+
+.titulo-con-corazones h2{
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1.25;
+    letter-spacing: 0.5px;
+    color: var(--rosa-intenso);
+}
+
+.titulo-con-corazones img{
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: drop-shadow(0 3px 6px rgba(216, 27, 116, 0.3));
+    animation: latido 2.6s ease-in-out infinite;
+}
+
+.titulo-con-corazones img:last-child{
+    animation-delay: 0.55s;
+}
+
+/* Corazones que cierran la sección: tres en fila, el del centro destacado */
+.cierre-corazones{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 24px 0 4px;
+}
+
+.cierre-corazones img{
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    opacity: 0.75;
+    filter: drop-shadow(0 3px 6px rgba(216, 27, 116, 0.25));
+}
+
+.cierre-corazones img:nth-child(2){
+    width: 28px;
+    height: 28px;
+    opacity: 1;
+    animation: latido 2.6s ease-in-out infinite;
+}
+
+#la-nobleza > img{
+    display: none;
+}
+
 #la-nobleza a{
     display: inline-block;
     margin-top: 18px;
@@ -444,6 +531,110 @@ iframe{
     padding: 8px;
     background: linear-gradient(135deg, #ff9ecf, #ff4fa3);
     box-shadow: 0 10px 22px rgba(216, 27, 116, 0.35);
+}
+
+/* ---------- Sección "Flores para ti" ----------
+   Misma estructura que "La razón de conocerte" (#la-nobleza): fondo
+   blanco translucido, esquinas redondeadas, corazón-flecha arriba,
+   título con corazones, y cierre de corazones.
+
+   El bloque de fotos va en DOS COLUMNAS:
+     - izquierda: los lirios largos a altura completa
+     - derecha:   las dos fotos pequeñas con el texto EN MEDIO
+   (object-fit: contain para que ninguna foto salga recortada) */
+#flores-para-ti{
+    background: rgba(255, 255, 255, 0.72);
+    border-radius: 24px;
+    padding: 24px 18px;
+    box-shadow: var(--sombra);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    text-align: center;
+    margin-top: 30px;
+}
+
+#flores-para-ti p{
+    text-align: left;
+}
+
+/* Las dos columnas: lirios a la izquierda, el resto a la derecha */
+.flores-grid{
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 16px;
+    align-items: stretch;
+    margin-bottom: 22px;
+}
+
+/* La columna derecha se centra en horizontal */
+.flores-columna{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+/* Fotos de la columna derecha: una arriba y otra abajo del texto.
+   El borde abraza SOLO la imagen: la caja no lleva alto fijo ni
+   object-fit, así el marco mide exactamente lo que mide la foto y no
+   queda fondo de sobra alrededor. */
+#flores-para-ti .foto-enmarcada{
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 16px;
+    border: 3px solid var(--rosa-intenso, #d81b74);
+    outline: 2px solid rgba(255, 79, 163, 0.35);
+    outline-offset: 3px;
+    box-shadow: 0 10px 22px rgba(216, 27, 116, 0.28);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+#flores-para-ti .foto-enmarcada:hover,
+#flores-para-ti .foto-enmarcada:focus-visible{
+    transform: scale(1.02);
+    box-shadow: 0 14px 28px rgba(216, 27, 116, 0.4);
+}
+
+/* Los lirios largos: el marco también abraza solo la foto. Se limita la
+   ALTURA (no el ancho) porque la foto es muy vertical; así el borde
+   queda pegado a la imagen y no sobra fondo arriba ni abajo. */
+#flores-para-ti .imagen-lirios{
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: 480px;
+    margin: 0 auto;
+    border-radius: 18px;
+    border: 3px solid var(--rosa-intenso, #d81b74);
+    outline: 2px solid rgba(255, 79, 163, 0.35);
+    outline-offset: 3px;
+    box-shadow: 0 10px 22px rgba(216, 27, 116, 0.28);
+}
+
+/* El texto, entre las dos fotos */
+.flores-columna p{
+    flex: 0 0 auto;
+    width: 100%;
+    margin: 0;
+    padding: 4px 2px;
+}
+
+/* En el celular: una sola columna, los lirios primero */
+@media (max-width: 600px){
+    .flores-grid{
+        grid-template-columns: 1fr;
+    }
+
+    #flores-para-ti .imagen-lirios{
+        height: 340px;
+        max-width: 100%;
+    }
+
+    #flores-para-ti .foto-enmarcada{
+        max-width: 100%;
+    }
 }
 
 /* ===========================================================
@@ -792,8 +983,8 @@ body.con-lightbox{
         letter-spacing: 0.3px;
     }
 
-    .nav h2::before,
-    .nav h2::after{
+    .nav h2:not(:has(*))::before,
+    .nav h2:not(:has(*))::after{
         width: 21px;
         height: 21px;
     }
@@ -871,6 +1062,37 @@ body.con-lightbox{
         width: 100%;
         padding: 15px 0;
     }
+
+    /* En el celular el título con corazones se acomoda sin apretarse */
+    .titulo-con-corazones{
+        gap: 9px;
+        padding: 9px 14px;
+        margin-bottom: 18px;
+    }
+
+    .titulo-con-corazones h2{
+        font-size: 1.15rem;
+    }
+
+    .titulo-con-corazones img{
+        width: 20px;
+        height: 20px;
+    }
+
+    .cierre-corazones{
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .cierre-corazones img{
+        width: 18px;
+        height: 18px;
+    }
+
+    .cierre-corazones img:nth-child(2){
+        width: 23px;
+        height: 23px;
+    }
 }
 
 /* Pantallas grandes: aprovecha el espacio */
@@ -887,8 +1109,8 @@ body.con-lightbox{
         letter-spacing: 1px;
     }
 
-    .nav h2::before,
-    .nav h2::after{
+    .nav h2:not(:has(*))::before,
+    .nav h2:not(:has(*))::after{
         width: 36px;
         height: 36px;
     }

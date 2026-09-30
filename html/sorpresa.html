@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Una cajita para ti</title>
+    <link rel="icon" href="../img/elementos/corazoncito1.png" type="image/png">
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="nav">
+            <h2>Todo un año de amor</h2>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Inicio</a></li>
+                    <li><a href="../html/regalos.html">Regalos</a></li>
+                    <li><a href="../html/sorpresa.html">Sorpresa</a></li>
+                    <li><a href="../html/te-amo.html">Te amo</a></li>
+                </ul>
+            </nav>
+            <div class="nav-separador" aria-hidden="true">
+                <img src="../img/elementos/corazoncito4.png" alt="">
+                <img src="../img/elementos/corazoncito4.png" alt="">
+                <img src="../img/elementos/corazoncito4.png" alt="">
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <section id="caja-sorpresa">
+            <img src="../img/elementos/corazon-flecha3.png" alt="No se encontro la imagen" class="corazon-flecha">
+
+            <div class="titulo-con-corazones">
+                <img src="../img/elementos/corazoncito2.png" alt="" aria-hidden="true">
+                <h2>Una cajita para ti</h2>
+                <img src="../img/elementos/corazoncito2.png" alt="" aria-hidden="true">
+            </div>
+
+            <p class="instruccion-caja">Toca la caja para abrirla 🎁</p>
+
+            <!-- Caja de regalo: se puede tocar (botón real, para teclado y celular) -->
+            <div class="caja-escena">
+                <button type="button" class="caja-regalo" id="caja-regalo" aria-expanded="false"
+                    aria-controls="caja-mensaje">
+                    <span class="caja-cuerpo" aria-hidden="true"></span>
+                    <span class="caja-cinta-vertical" aria-hidden="true"></span>
+                    <span class="caja-tapa" aria-hidden="true"></span>
+                    <span class="caja-lazo" aria-hidden="true">
+                        <span class="caja-mono caja-mono-izq"></span>
+                        <span class="caja-mono caja-mono-der"></span>
+                    </span>
+                    <span class="caja-brillo" aria-hidden="true"></span>
+                </button>
+
+                <!-- Corazones que salen disparados al abrir -->
+                <div class="caja-corazones" id="caja-corazones" aria-hidden="true"></div>
+            </div>
+
+            <!-- El mensaje secreto que aparece al abrir -->
+            <div class="caja-mensaje" id="caja-mensaje" role="region" aria-live="polite">
+                <div class="carta-diseño">
+                    <div class="carta-regalo-izquierda">
+                        <h3>Sorpresita</h3>
+                        <p>
+                            Si estás leyendo esto es por que encontraste la cajita escondida 💗
+                            No hay nada material aquí dentro, solo algo que quiero que nunca se te olvide:
+                            eres lo mejor que me ha pasado en la vida, mi persona favorita, mi lugar seguro.
+                        </p>
+                        <p>
+                            Prometo seguir eligiéndote cada día, en los buenos y en los difíciles, y recordarte
+                            lo mucho que vales cuando tú lo olvides. Gracias por un año entero de amor, mi amor.
+                            Te amo infinito, hoy y siempre. 🤍
+                        </p>
+                    </div>
+                </div>
+
+                <p class="caja-pista">¿Tocas la caja otra vez para cerrarla? 😊</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="../js/lightbox.js"></script>
+    <script src="../js/musica.js"></script>
+    <script src="../js/sorpresa.js"></script>
+
+</body>
+
+</html>

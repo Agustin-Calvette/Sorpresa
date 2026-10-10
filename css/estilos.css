@@ -303,6 +303,61 @@ p{
     margin-top: 0;
 }
 
+/* ---------- Aviso: ver esta página al final ---------- */
+.aviso-inicio{
+    background: rgba(255, 227, 241, 0.85);
+    border: 2px dashed var(--rosa-fuerte, #ff4fa3);
+    border-radius: 20px;
+    padding: 20px 18px;
+    margin: 18px 0;
+    text-align: center;
+    box-shadow: var(--sombra);
+}
+
+.aviso-inicio-titulo{
+    margin: 0 0 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--rosa-intenso, #d81b74);
+}
+
+.aviso-inicio p{
+    margin: 8px 0;
+    color: var(--texto, #6b1f47);
+}
+
+.aviso-inicio-orden{
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 0;
+    margin: 14px 0;
+}
+
+.aviso-inicio-orden li a{
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 40px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--blanco, #fff);
+    background: linear-gradient(135deg, var(--rosa-fuerte, #ff4fa3), var(--rosa-intenso, #d81b74));
+    box-shadow: 0 6px 16px rgba(216, 27, 116, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.aviso-inicio-orden li a:hover{
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 10px 20px rgba(216, 27, 116, 0.4);
+}
+
+.aviso-inicio-final{
+    font-weight: 700;
+    color: var(--rosa-intenso, #d81b74);
+}
+
 /* ---------- Video de YouTube responsivo ---------- */
 iframe{
     width: 100%;
@@ -317,16 +372,19 @@ iframe{
 }
 
 /* ---------- Sección "La razón de conocerte" ---------- */
-#la-nobleza{
+#la-nobleza,
+#la-nobleza-segunda{
     background: rgba(255, 255, 255, 0.72);
     border-radius: 24px;
     padding: 24px 18px;
     box-shadow: var(--sombra);
     border: 1px solid rgba(255, 255, 255, 0.9);
     text-align: center;
+    margin-top: 30px;
 }
 
-#la-nobleza p{
+#la-nobleza p,
+#la-nobleza-segunda p{
     text-align: left;
 }
 
@@ -393,11 +451,13 @@ iframe{
     animation: latido 2.6s ease-in-out infinite;
 }
 
-#la-nobleza > img{
+#la-nobleza > img,
+#la-nobleza-segunda > img{
     display: none;
 }
 
-#la-nobleza a{
+#la-nobleza a,
+#la-nobleza-segunda a{
     display: inline-block;
     margin-top: 18px;
     text-decoration: none;
@@ -412,9 +472,54 @@ iframe{
 }
 
 #la-nobleza a:hover,
-#la-nobleza a:active{
+#la-nobleza a:active,
+#la-nobleza-segunda a:hover,
+#la-nobleza-segunda a:active{
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 14px 28px rgba(216, 27, 116, 0.55);
+}
+
+/* Foto centrada con un corazón a cada costado, debajo del texto */
+.foto-con-corazones{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 24px auto 6px;
+    flex-wrap: wrap;
+}
+
+.foto-con-corazones > img:first-child,
+.foto-con-corazones > img:last-child{
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    filter: drop-shadow(0 3px 6px rgba(216, 27, 116, 0.3));
+    animation: latido 2.6s ease-in-out infinite;
+}
+
+.foto-con-corazones > img:last-child{
+    animation-delay: 0.55s;
+}
+
+.foto-con-corazones .foto-enmarcada{
+    display: block;
+    width: auto;
+    max-width: min(100%, 420px);
+    height: auto;
+    border-radius: 18px;
+    border: 3px solid var(--rosa-intenso, #d81b74);
+    outline: 2px solid rgba(255, 79, 163, 0.35);
+    outline-offset: 3px;
+    box-shadow: 0 10px 22px rgba(216, 27, 116, 0.28);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.foto-con-corazones .foto-enmarcada:hover,
+.foto-con-corazones .foto-enmarcada:focus-visible{
+    transform: scale(1.02);
+    box-shadow: 0 14px 28px rgba(216, 27, 116, 0.4);
 }
 
 /* ---------- Corazones con flecha ---------- */
@@ -908,6 +1013,258 @@ body.con-lightbox{
 @keyframes halo-atencion{
     0%{ transform: scale(1); opacity: 0.9; }
     100%{ transform: scale(1.45); opacity: 0; }
+}
+
+/* ===========================================================
+   REPRODUCTOR CON LETRA SINCRONIZADA 💗
+   El audio arriba y, debajo, la letra. La línea que va sonando
+   se resalta en color rosa y se centra automáticamente.
+   =========================================================== */
+#reproductor{
+    max-width: 640px;
+    margin: 26px auto 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+#reproductor audio{
+    display: none; /* usamos nuestros propios controles, no los del navegador */
+}
+
+/* ---------- Los controles propios del reproductor ---------- */
+.rp-controles{
+    width: 100%;
+    max-width: 460px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 22px rgba(216, 27, 116, 0.22);
+}
+
+/* Botón redondo de play / pausa */
+.rp-play{
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blanco, #fff);
+    font-size: 1rem;
+    background: linear-gradient(135deg, var(--rosa-fuerte, #ff4fa3), var(--rosa-intenso, #d81b74));
+    box-shadow: 0 6px 16px rgba(216, 27, 116, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rp-play:hover{
+    transform: scale(1.08);
+}
+
+.rp-play:active{
+    transform: scale(0.95);
+}
+
+.rp-icono{
+    line-height: 1;
+    /* Un pelín a la derecha para que el triángulo se vea centrado */
+    transform: translateX(1px);
+}
+
+.rp-play.rp-sonando .rp-icono{
+    transform: none;
+    letter-spacing: -2px;
+}
+
+/* Zona central: barra de progreso + tiempos */
+.rp-medio{
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.rp-barra{
+    position: relative;
+    height: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    background: rgba(216, 27, 116, 0.16);
+    outline: none;
+}
+
+.rp-barra:focus-visible{
+    box-shadow: 0 0 0 3px rgba(255, 79, 163, 0.45);
+}
+
+.rp-relleno{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    border-radius: 20px;
+    background: linear-gradient(90deg, var(--rosa-fuerte, #ff4fa3), var(--rosa-intenso, #d81b74));
+}
+
+.rp-tiempos{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    font-size: 0.72rem;
+    color: rgba(107, 31, 71, 0.7);
+}
+
+/* Botón de volver a empezar */
+.rp-reiniciar{
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--rosa-intenso, #d81b74);
+    background: rgba(255, 79, 163, 0.14);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.rp-reiniciar:hover{
+    background: rgba(255, 79, 163, 0.26);
+    transform: rotate(-40deg);
+}
+
+#lyrics{
+    width: 100%;
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 18px 20px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: inset 0 0 0 2px rgba(255, 79, 163, 0.18),
+                0 10px 26px rgba(216, 27, 116, 0.15);
+    /* Difumina los bordes de arriba y abajo para que el texto
+       parezca difuminarse en lugar de cortarse de golpe */
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+    /* OJO: NO poner "scroll-behavior: smooth" aquí. El desplazamiento suave
+       lo hace el JavaScript; si el CSS también lo anima, se pelean y el
+       recuadro acaba saltando al fondo. */
+}
+
+#lyrics .line{
+    margin: 0;
+    padding: 9px 12px;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    text-align: center;
+    color: rgba(90, 30, 70, 0.55);
+    transition: color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+}
+
+/* La línea que está sonando justo ahora */
+#lyrics .line.active{
+    color: var(--rosa-fuerte, #d81b74);
+    font-weight: 700;
+    transform: scale(1.05);
+    background: rgba(255, 79, 163, 0.12);
+    text-shadow: 0 2px 8px rgba(216, 27, 116, 0.25);
+}
+
+@media (max-width: 600px){
+    #lyrics{
+        max-height: 260px;
+        padding: 14px 14px;
+    }
+
+    #lyrics .line{
+        font-size: 1rem;
+    }
+
+    .rp-controles{
+        padding: 10px 14px;
+        gap: 10px;
+    }
+
+    .rp-play{
+        width: 42px;
+        height: 42px;
+    }
+
+    .rp-tiempos{
+        font-size: 0.68rem;
+    }
+}
+
+/* ===========================================================
+   CIERRE FINAL 💗
+   Un último bloque al final de la página para darle un broche
+   bonito: corazones, un mensaje de despedida y la firma.
+   =========================================================== */
+.cierre-final{
+    max-width: 720px;
+    margin: 40px auto 0;
+    padding: 28px 20px 32px;
+    text-align: center;
+    border-top: 2px dashed rgba(216, 27, 116, 0.25);
+}
+
+.cierre-final-corazones{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.cierre-final-corazones img{
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    opacity: 0.8;
+    filter: drop-shadow(0 3px 6px rgba(216, 27, 116, 0.28));
+}
+
+.cierre-final-corazones img:nth-child(2){
+    width: 32px;
+    height: 32px;
+    opacity: 1;
+    animation: latido 2.6s ease-in-out infinite;
+}
+
+.cierre-final-mensaje{
+    margin: 0 auto 10px;
+    max-width: 560px;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--texto, #6b1f47);
+}
+
+.cierre-final-firma{
+    margin: 0;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    color: rgba(216, 27, 116, 0.75);
+}
+
+@media (max-width: 600px){
+    .cierre-final{
+        margin-top: 30px;
+        padding: 22px 16px 26px;
+    }
+
+    .cierre-final-mensaje{
+        font-size: 0.98rem;
+    }
 }
 
 /* ---------- Animaciones ---------- */
@@ -1563,5 +1920,124 @@ body.con-lightbox{
         opacity: 1;
         transform: none;
         transition: none;
+    }
+}
+/* ===========================================================
+   SECCIÓN "Un futuro contigo" 💗
+   Imagen a la IZQUIERDA y texto a la DERECHA en pantallas grandes;
+   en el celular se apila (imagen arriba, texto abajo).
+   =========================================================== */
+#nuestro-futuro{
+    background: rgba(255, 255, 255, 0.72);
+    border-radius: 24px;
+    padding: 24px 18px;
+    box-shadow: var(--sombra);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    text-align: center;
+    margin-top: 30px;
+}
+
+#nuestro-futuro p{
+    text-align: left;
+}
+
+/* El corazón-flecha que ya usan las demás secciones va oculto aquí,
+   igual que en #la-nobleza y #la-nobleza-segunda */
+#nuestro-futuro > .corazon-flecha{
+    display: none;
+}
+
+/* Dos columnas: la imagen a la izquierda, el texto a la derecha */
+.futuro-grid{
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 22px;
+    align-items: center;
+    text-align: left;
+}
+
+/* La foto, dentro de su columna */
+.futuro-imagen{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#nuestro-futuro .foto-enmarcada{
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 18px;
+    border: 3px solid var(--rosa-intenso, #d81b74);
+    outline: 2px solid rgba(255, 79, 163, 0.35);
+    outline-offset: 3px;
+    box-shadow: 0 10px 22px rgba(216, 27, 116, 0.28);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+#nuestro-futuro .foto-enmarcada:hover,
+#nuestro-futuro .foto-enmarcada:focus-visible{
+    transform: scale(1.02);
+    box-shadow: 0 14px 28px rgba(216, 27, 116, 0.4);
+}
+
+.futuro-texto p{
+    margin: 0;
+}
+
+/* ===========================================================
+   SECCIÓN "Siempre podrás contar conmigo" 💗
+   Igual que la anterior pero con la imagen a la DERECHA y el
+   texto a la IZQUIERDA (basta con invertir el orden en el HTML
+   y usar .futuro-grid-inverso).
+   =========================================================== */
+#siempre-conmigo{
+    background: rgba(255, 255, 255, 0.72);
+    border-radius: 24px;
+    padding: 24px 18px;
+    box-shadow: var(--sombra);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    text-align: center;
+    margin-top: 30px;
+}
+
+#siempre-conmigo p{
+    text-align: left;
+}
+
+#siempre-conmigo > .corazon-flecha{
+    display: none;
+}
+
+#siempre-conmigo .foto-enmarcada{
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 18px;
+    border: 3px solid var(--rosa-intenso, #d81b74);
+    outline: 2px solid rgba(255, 79, 163, 0.35);
+    outline-offset: 3px;
+    box-shadow: 0 10px 22px rgba(216, 27, 116, 0.28);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+#siempre-conmigo .foto-enmarcada:hover,
+#siempre-conmigo .foto-enmarcada:focus-visible{
+    transform: scale(1.02);
+    box-shadow: 0 14px 28px rgba(216, 27, 116, 0.4);
+}
+
+/* La columna del texto es un poco más ancha y la de la imagen más estrecha */
+.futuro-grid-inverso{
+    grid-template-columns: 1.15fr 1fr;
+}
+
+/* En el celular: una sola columna, texto arriba y imagen abajo */
+@media (max-width: 600px){
+    .futuro-grid{
+        grid-template-columns: 1fr;
+        gap: 16px;
     }
 }

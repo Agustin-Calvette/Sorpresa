@@ -1,0 +1,26 @@
+MÚSICA DEL REPRODUCTOR 💗
+=========================
+
+Coloca aquí tu canción con el nombre indicado para que el reproductor
+con letra sincronizada funcione:
+
+    audio/corazon-rosa.mp3
+
+(Si tu archivo se llama distinto o es .m4a / .ogg, solo cambia el
+nombre en el <source> del audio dentro de index.html, sección
+"Reproductor con Letra Sincronizada".)
+
+---------------------------
+¿Cómo sincronizo la letra?
+---------------------------
+1. Abre js/reproductor.js
+2. Verás una lista llamada LETRA con líneas así:
+
+       { time: 12, text: "mi mundo entero se llenó de color." },
+
+   El número de "time" son los SEGUNDOS en los que esa línea
+   empieza a sonar. Ajusta esos tiempos según tu canción.
+
+3. El reproductor irá resaltando y centrando cada línea sola.
+
+Extra: si tocas una línea de la letra, la canción salta a ese momento.

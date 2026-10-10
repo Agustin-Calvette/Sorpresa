@@ -2026,6 +2026,44 @@ body.con-lightbox{
     }
 }
 /* ===========================================================
+   SECCIÓN "Entre tú y yo" 💗
+   Bloque intermedio entre "Me amas a pesar de todo" y
+   "Un futuro contigo": imagen a la IZQUIERDA y texto a la DERECHA.
+   =========================================================== */
+#entre-nosotros{
+    background: rgba(255, 255, 255, 0.72);
+    border-radius: 24px;
+    padding: 24px 18px;
+    box-shadow: var(--sombra);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    text-align: center;
+    margin-top: 30px;
+}
+
+#entre-nosotros p{
+    text-align: left;
+}
+
+#entre-nosotros .foto-enmarcada{
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 18px;
+    border: 3px solid var(--rosa-intenso, #d81b74);
+    outline: 2px solid rgba(255, 79, 163, 0.35);
+    outline-offset: 3px;
+    box-shadow: 0 10px 22px rgba(216, 27, 116, 0.28);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+#entre-nosotros .foto-enmarcada:hover,
+#entre-nosotros .foto-enmarcada:focus-visible{
+    transform: scale(1.02);
+    box-shadow: 0 14px 28px rgba(216, 27, 116, 0.4);
+}
+
+/* ===========================================================
    SECCIÓN "Un futuro contigo" 💗
    Imagen a la IZQUIERDA y texto a la DERECHA en pantallas grandes;
    en el celular se apila (imagen arriba, texto abajo).

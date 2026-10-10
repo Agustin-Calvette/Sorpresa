@@ -141,6 +141,23 @@
         return overlay.classList.contains("lightbox-abierto");
     }
 
+    // ------------------ Indicador "toca para ampliar" ------------------
+    // Aviso flotante sobre cada imagen para que se sepa que se puede
+    // ampliar. Se añade desde aquí para no tener que editar cada HTML.
+    function añadirIndicador(img) {
+        // Envolvemos la imagen para poder colocar el aviso encima.
+        var envoltorio = document.createElement("div");
+        envoltorio.className = "imagen-indicador";
+        img.parentNode.insertBefore(envoltorio, img);
+        envoltorio.appendChild(img);
+
+        var aviso = document.createElement("span");
+        aviso.className = "indicador-ampliar";
+        aviso.setAttribute("aria-hidden", "true");
+        aviso.innerHTML = "\uD83D\uDD0D Toca para ampliar";
+        envoltorio.appendChild(aviso);
+    }
+
     // ------------------ Eventos ------------------
     for (var i = 0; i < imagenes.length; i++) {
         (function (indice) {
@@ -148,7 +165,9 @@
             img.classList.add("imagen-ampliable");
             img.setAttribute("tabindex", "0");
             img.setAttribute("role", "button");
-            img.setAttribute("aria-label", "Ver este regalo en pantalla completa");
+            img.setAttribute("aria-label", "Toca para ampliar este regalo");
+
+            añadirIndicador(img);
 
             img.addEventListener("click", function () {
                 abrir(indice);

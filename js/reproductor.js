@@ -60,6 +60,7 @@
     var duracion = document.getElementById("rp-duracion");
     var botonReiniciar = document.getElementById("rp-reiniciar");
     var velocidad = document.getElementById("rp-velocidad");
+    var avisoPlay = document.getElementById("rp-aviso");
 
     var indiceActual = -1;
     var lineas = [];
@@ -187,6 +188,10 @@
         }
         var sonando = !audio.paused && !audio.ended;
         botonPlay.classList.toggle("rp-sonando", sonando);
+        // El aviso "toca para empezar" solo se ve antes de reproducir.
+        if (avisoPlay) {
+            avisoPlay.classList.toggle("rp-aviso-oculto", sonando);
+        }
         botonPlay.setAttribute("aria-label", sonando ? "Pausar" : "Reproducir");
         botonPlay.innerHTML = sonando
             ? '<span class="rp-icono" aria-hidden="true">&#10074;&#10074;</span>'

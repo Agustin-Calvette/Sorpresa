@@ -49,10 +49,20 @@
     audio.volume = VOLUMEN;
 
     // ------------------ El botón flotante ------------------
+    // Va dentro de un contenedor para poder ponerle una etiqueta que
+    // indique que hay que pulsarlo para escuchar la música.
+    var contenedorMusica = document.createElement("div");
+    contenedorMusica.className = "musica-flotante";
+
+    // Globo que invita a pulsar (se oculta cuando ya suena)
+    var globo = document.createElement("span");
+    globo.className = "musica-globo";
+    globo.textContent = "\uD83D\uDC93 Toca para poner la música";
+
     var boton = document.createElement("button");
     boton.className = "boton-musica";
     boton.type = "button";
-    boton.setAttribute("aria-label", "Música de fondo");
+    boton.setAttribute("aria-label", "Toca para poner la música");
 
     // Corazón + las barritas de "sonando"
     boton.innerHTML =
@@ -61,11 +71,23 @@
         '<i></i><i></i><i></i>' +
         "</span>";
 
+    // Etiqueta fija debajo del botón (para que siempre se sepa qué es)
+    var etiqueta = document.createElement("span");
+    etiqueta.className = "musica-etiqueta";
+    etiqueta.textContent = "Música";
+
+    contenedorMusica.appendChild(globo);
+    contenedorMusica.appendChild(boton);
+    contenedorMusica.appendChild(etiqueta);
+
     function pintarBoton(sonando) {
         boton.classList.toggle("musica-activa", sonando);
+        // El globo solo sirve mientras NO suena: desaparece al reproducir.
+        contenedorMusica.classList.toggle("musica-oculta-globo", sonando);
+        etiqueta.textContent = sonando ? "Sonando" : "Música";
         boton.setAttribute(
             "aria-label",
-            sonando ? "Pausar la música" : "Reproducir la música"
+            sonando ? "Pausar la música" : "Toca para poner la música"
         );
     }
 
@@ -122,7 +144,7 @@
         }
 
         document.body.appendChild(audio);
-        document.body.appendChild(boton);
+        document.body.appendChild(contenedorMusica);
 
         // Al terminar de cargar los datos, quizá haya que saltar al segundo
         audio.addEventListener("loadedmetadata", function () {
@@ -142,7 +164,7 @@
         // Si la canción no existe todavía, avisamos en consola y no
         // mostramos el botón (así no queda un corazón inútil)
         audio.addEventListener("error", function () {
-            boton.remove();
+            contenedorMusica.remove();
             console.warn(
                 "No se encontró la música. Pon tu archivo en: " + rutaCancion
             );
